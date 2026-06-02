@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch('http://api-doba.techgenesismw.com/api/auth/login', {
+      const response = await fetch('https://api-doba.techgenesismw.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (userData: RegisterData): Promise<boolean> => {
     try {
-      const response = await fetch('http://api-doba.techgenesismw.com/api/auth/register', {
+      const response = await fetch('https://api-doba.techgenesismw.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

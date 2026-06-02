@@ -5,7 +5,7 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "NEXT_PUBLIC_API_URL": "http://api-doba.techgenesismw.com",
+    "NEXT_PUBLIC_API_URL": "https://api-doba.techgenesismw.com",
     "NEXT_PUBLIC_APP_URL": "https://dobadoba.techgenesismw.com"
   }
 }
