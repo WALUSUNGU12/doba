@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Design tokens */
+  --color-primary: 15 118 110;      /* teal-700 */
+  --color-primary-light: 20 184 166; /* teal-500 */
+  --color-accent: 245 158 11;        /* amber-500 */
+  --color-dark: 17 24 39;            /* gray-900 */
+  --color-muted: 107 114 128;        /* gray-500 */
+  --color-bg: 249 250 251;           /* gray-50 */
+  --color-surface: 255 255 255;      /* white */
+  --color-border: 229 231 235;       /* gray-200 */
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: rgb(var(--dark));
+  background: rgb(var(--white));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--light));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--gray));
+  border-radius: var(--radius-md);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--primary));
+}
+
+/* Selection */
+::selection {
+  background: rgb(var(--primary));
+  color: white;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid rgb(var(--primary));
+  outline-offset: 2px;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgb(var(--dark));
+  }
+  
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.875rem; }
+  h4 { font-size: 1.5rem; }
+  h5 { font-size: 1.25rem; }
+  h6 { font-size: 1.125rem; }
+  
+  @media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    h4 { font-size: 1.25rem; }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-teal-700 text-white hover:bg-teal-800 focus:ring-teal-600;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 focus:ring-gray-300;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border border-white/30 text-white hover:bg-white/10 focus:ring-white/30;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-gray-100 hover:border-teal-200 transition-colors duration-200;
+  }
+
+  .gradient-text {
+    @apply text-teal-700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "http://api-doba.techgenesismw.com",
+    "NEXT_PUBLIC_APP_URL": "https://dobadoba.techgenesismw.com"
+  }
+}
