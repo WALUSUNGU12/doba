@@ -83,9 +83,25 @@ export default function CartPage() {
               {items.map(item => (
                 <div key={item.product_id} className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col sm:flex-row gap-4">
                   {/* Image */}
-                  <div className="w-full sm:w-28 aspect-square bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100">
-                    {item.product.image_urls?.[0] ? (
-                      <img src={item.product.image_urls[0]} alt={item.product.product_name} className="w-full h-full object-cover" />
+                  <div className="w-full sm:w-28 aspect-square bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 relative group">
+                    {item.product.image_urls && item.product.image_urls.length > 0 ? (
+                      <>
+                        <img 
+                          src={item.product.image_urls[0].startsWith('http') ? item.product.image_urls[0] : `https://api-doba.techgenesismw.com${item.product.image_urls[0]}`}
+                          alt={item.product.product_name} 
+                          className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
+                      </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>

@@ -191,16 +191,56 @@ export default function CourierPage() {
         {/* Header */}
         <div className="bg-white border-b border-gray-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <p className="text-xs font-semibold text-teal-700 uppercase tracking-widest mb-2">Order Tracking</p>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">Track Your Order</h1>
-            <p className="text-sm text-gray-500">Enter your order ID to track your package and get real-time delivery updates</p>
+            <p className="text-xs font-semibold text-teal-700 uppercase tracking-widest mb-2">Tracking System</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Track Orders & Parcels</h1>
+            <p className="text-sm text-gray-500">Enter your order ID or parcel tracking number to get real-time delivery updates</p>
+
+            {/* P2P Courier System Info */}
+            <div className="mt-8 bg-gradient-to-r from-teal-50 to-blue-50 rounded-xl border border-teal-100 p-6">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 bg-teal-600 rounded-xl flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">P2P Courier System</h2>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Our secure peer-to-peer courier network facilitates convenient parcel sending and receiving between individuals. 
+                    Connect with verified couriers, track your shipments in real-time, and enjoy reliable door-to-door delivery across multiple routes.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-teal-200 text-xs font-semibold text-teal-700">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Secure
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-teal-200 text-xs font-semibold text-teal-700">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Fast
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg border border-teal-200 text-xs font-semibold text-teal-700">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                    </svg>
+                    P2P Network
+                  </span>
+                </div>
+              </div>
+            </div>
 
             {/* Search form */}
             <div className="mt-6 max-w-md">
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Enter Order ID (e.g., DOB-2024-001)"
+                  placeholder="Enter Order ID or Parcel Tracking Number"
                   value={orderId}
                   onChange={e => { setOrderId(e.target.value); if (error) setError('') }}
                   onKeyPress={e => e.key === 'Enter' && handleTrackOrder()}

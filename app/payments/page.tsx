@@ -256,7 +256,7 @@ export default function PaymentsPage() {
 
               {/* Charge details */}
               {selectedCharge && (
-                <div className="border-t border-gray-100 pt-4 space-y-3">
+                <div className="border-t border-gray-100 pt-4 space-y-3 print:hidden">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Payment Provider</p>
                   {[
                     { label: 'Status', value: selectedCharge.status },

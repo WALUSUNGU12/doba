@@ -252,9 +252,9 @@ export default function RegisterPage() {
                     />
                     <span className="text-sm text-gray-600">
                       I agree to the{' '}
-                      <a href="#" className="text-teal-700 hover:text-teal-800 font-medium">Terms of Service</a>
+                      <Link href="/terms" className="text-teal-700 hover:text-teal-800 font-medium">Terms of Service</Link>
                       {' '}and{' '}
-                      <a href="#" className="text-teal-700 hover:text-teal-800 font-medium">Privacy Policy</a>
+                      <Link href="/privacy" className="text-teal-700 hover:text-teal-800 font-medium">Privacy Policy</Link>
                     </span>
                   </label>
                   <FieldError msg={errors.terms} />
@@ -285,7 +285,7 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || (!verificationStep && !termsAccepted)}
               className="w-full py-2.5 bg-teal-700 text-white text-sm font-semibold rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading && (

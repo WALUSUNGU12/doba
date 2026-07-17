@@ -19,8 +19,10 @@ interface DeliveryRoute {
 interface Terminal {
   terminal_id: number
   name: string
+  code: string
   city: string
   address: string
+  phone: string
   isActive?: boolean | number
 }
 
@@ -188,10 +190,30 @@ export default function CheckoutPage() {
     const e: Record<string, string> = {}
     if (!shippingInfo.firstName.trim()) e.firstName = 'First name is required'
     if (!shippingInfo.lastName.trim()) e.lastName = 'Last name is required'
-    if (!shippingInfo.email.trim()) e.email = 'Email is required'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingInfo.email)) e.email = 'Enter a valid email'
-    if (!shippingInfo.phone.trim()) e.phone = 'Phone number is required'
     return e
+  }
+
+  const validatePaymentPhone = () => {
+    if (!paymentPhone.trim()) return 'Payment phone number is required'
+    
+    const phone = paymentPhone.trim()
+    const operatorName = selectedOperator?.name.toLowerCase() || ''
+    
+    if (operatorName.includes('mpamba')) {
+      if (!phone.startsWith('088') && !phone.startsWith('089')) {
+        return 'TNM Mpamba numbers must start with 088 or 089'
+      }
+    } else if (operatorName.includes('airtel')) {
+      if (!phone.startsWith('099') && !phone.startsWith('098')) {
+        return 'Airtel Money numbers must start with 099 or 098'
+      }
+    }
+    
+    if (phone.length !== 10) {
+      return 'Phone number must be 10 digits'
+    }
+    
+    return ''
   }
 
   const createOrder = async (txRef: string, storedPayload?: any) => {
@@ -324,7 +346,8 @@ export default function CheckoutPage() {
     if (Object.keys(errs).length) { setShippingErrors(errs); return }
     if (!selectedTerminal) { alert('Please select a delivery terminal'); return }
     if (!selectedOperator) { alert('Please select a payment method'); return }
-    if (!paymentPhone.trim()) { setPhoneError('Payment phone number is required'); return }
+    const phoneError = validatePaymentPhone()
+    if (phoneError) { setPhoneError(phoneError); return }
     setShippingErrors({})
     setPhoneError('')
     setIsProcessing(true)
@@ -404,9 +427,9 @@ export default function CheckoutPage() {
       </p>
     ) : null
 
-  const inputClass = (hasError: boolean) =>
+  const inputClass = (hasError: boolean, isReadOnly: boolean = false) =>
     `w-full px-3.5 py-2.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors ${
-      hasError ? 'border-red-400 bg-red-50' : 'border-gray-300'
+      hasError ? 'border-red-400 bg-red-50' : isReadOnly ? 'border-gray-200 bg-gray-50' : 'border-gray-300'
     }`
 
   // Order success screen
@@ -587,23 +610,13 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">First name</label>
-                    <input type="text" value={shippingInfo.firstName} onChange={e => { setShippingInfo(p => ({ ...p, firstName: e.target.value })); if (shippingErrors.firstName) setShippingErrors(p => ({ ...p, firstName: '' })) }} className={inputClass(!!shippingErrors.firstName)} />
+                    <input type="text" value={shippingInfo.firstName} readOnly className={inputClass(!!shippingErrors.firstName, true)} />
                     <FieldError msg={shippingErrors.firstName} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Last name</label>
-                    <input type="text" value={shippingInfo.lastName} onChange={e => { setShippingInfo(p => ({ ...p, lastName: e.target.value })); if (shippingErrors.lastName) setShippingErrors(p => ({ ...p, lastName: '' })) }} className={inputClass(!!shippingErrors.lastName)} />
+                    <input type="text" value={shippingInfo.lastName} readOnly className={inputClass(!!shippingErrors.lastName, true)} />
                     <FieldError msg={shippingErrors.lastName} />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                    <input type="email" value={shippingInfo.email} onChange={e => { setShippingInfo(p => ({ ...p, email: e.target.value })); if (shippingErrors.email) setShippingErrors(p => ({ ...p, email: '' })) }} className={inputClass(!!shippingErrors.email)} />
-                    <FieldError msg={shippingErrors.email} />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
-                    <input type="tel" value={shippingInfo.phone} onChange={e => { setShippingInfo(p => ({ ...p, phone: e.target.value })); if (shippingErrors.phone) setShippingErrors(p => ({ ...p, phone: '' })) }} placeholder="+265 xxx xxx xxx" className={inputClass(!!shippingErrors.phone)} />
-                    <FieldError msg={shippingErrors.phone} />
                   </div>
                 </div>
               </div>
@@ -651,7 +664,9 @@ export default function CheckoutPage() {
                               <input type="radio" name="terminal" checked={isSelected} onChange={() => setSelectedTerminal(terminal)} className="sr-only" />
                               <div>
                                 <p className="text-sm font-semibold text-gray-900">{terminal.name}</p>
-                                <p className="text-xs text-gray-500 mt-0.5">{terminal.address}, {terminal.city}</p>
+                                <p className="text-xs text-gray-500 mt-0.5">Code: {terminal.code}</p>
+                                <p className="text-xs text-gray-500 mt-0.5">{terminal.address}</p>
+                                <p className="text-xs text-gray-500 mt-0.5">{terminal.phone}</p>
                                 {route ? (
                                   <span className="inline-flex items-center mt-1.5 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-100">
                                     Direct Route: {route.courier_name || 'System Route'}
@@ -730,9 +745,17 @@ export default function CheckoutPage() {
                         </label>
                         <input
                           type="tel"
-                          placeholder="0xxxxxxxxx"
+                          placeholder={
+                            selectedOperator.name.toLowerCase().includes('mpamba') 
+                              ? '088xxxxxxxxx or 089xxxxxxxxx' 
+                              : '099xxxxxxxxx or 098xxxxxxxxx'
+                          }
                           value={paymentPhone}
-                          onChange={e => { setPaymentPhone(e.target.value); if (phoneError) setPhoneError('') }}
+                          onChange={e => {
+                            const value = e.target.value.replace(/\D/g, '').slice(0, 10)
+                            setPaymentPhone(value)
+                            if (phoneError) setPhoneError('')
+                          }}
                           className={inputClass(!!phoneError)}
                         />
                         <FieldError msg={phoneError} />

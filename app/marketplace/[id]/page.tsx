@@ -157,6 +157,7 @@ interface Product {
   stock_quantity: number
   is_active: boolean
   created_at: string
+  weight_kg?: number
 }
 
 interface Shop {
@@ -215,7 +216,7 @@ export default function ProductDetailPage() {
         <div className="text-center max-w-md">
           <div className="text-6xl mb-6">🔍</div>
           <h3 className="text-2xl font-black text-gray-900 mb-2">Product not found</h3>
-          <Link href="/dashboard/marketplace" className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-black shadow-xl inline-block mt-6 hover:bg-emerald-600">
+          <Link href="/marketplace" className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-black shadow-xl inline-block mt-6 hover:bg-emerald-600">
             Back to Marketplace
           </Link>
         </div>
@@ -225,9 +226,9 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Mobile Back Button */}
-      <div className="lg:hidden p-4 bg-white border-b sticky top-0 z-20">
-        <Link href="/dashboard/marketplace" className="inline-flex items-center text-gray-900 font-black text-xs uppercase tracking-widest">
+      {/* Back Button */}
+      <div className="p-4 bg-white border-b sticky top-0 z-20">
+        <Link href="/marketplace" className="inline-flex items-center text-gray-900 font-black text-xs uppercase tracking-widest">
           <span className="mr-2">←</span> Back
         </Link>
       </div>
@@ -287,6 +288,11 @@ export default function ProductDetailPage() {
                 <span className="px-3 py-1 bg-gray-100 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-500">
                   {product.category}
                 </span>
+                {product.weight_kg && (
+                  <span className="px-3 py-1 bg-blue-50 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-700">
+                    {product.weight_kg} kg
+                  </span>
+                )}
                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
                   product.stock_quantity > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
                 }`}>

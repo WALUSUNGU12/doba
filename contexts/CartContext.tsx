@@ -61,6 +61,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const existingItem = currentItems.find(item => item.product_id === product.product_id)
       const price = product.price || 0
 
+      // Transform image URLs to absolute URLs for persistence
+      const productWithAbsoluteUrls = {
+        ...product,
+        image_urls: product.image_urls?.map(url => 
+          url.startsWith('http') ? url : `https://api-doba.techgenesismw.com${url}`
+        )
+      }
+
       if (existingItem) {
         return currentItems.map(item =>
           item.product_id === product.product_id
@@ -70,7 +78,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       } else {
         return [...currentItems, {
           product_id: product.product_id,
-          product,
+          product: productWithAbsoluteUrls,
           quantity,
           price: product.price
         }]
